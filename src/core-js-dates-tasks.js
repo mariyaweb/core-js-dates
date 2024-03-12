@@ -296,8 +296,6 @@ function getWorkSchedule(period, countWorkDays, countOffDays) {
   end.setMonth(end.getMonth());
   const duration = (end.getTime() - start.getTime()) / (1000 * 3600 * 24);
   const currDate = new Date(start);
-  console.log(currDate);
-  console.log(start);
   const resArr = [];
   let countW = 0;
   let countOff = 0;

@@ -62,7 +62,7 @@ function getDayName(date) {
     'Saturday',
   ];
   const convertedDate = new Date(date);
-  const dayIdx = convertedDate.getDay();
+  const dayIdx = convertedDate.getUTCDay();
   return daysArr[dayIdx];
 }
 
@@ -79,9 +79,9 @@ function getDayName(date) {
  */
 function getNextFriday(date) {
   const nextDay = new Date(date);
-  nextDay.setDate(nextDay.getDate() + 1);
-  while (nextDay.getDay() !== 5) {
-    nextDay.setDate(nextDay.getDate() + 1);
+  nextDay.setUTCDate(nextDay.getUTCDate() + 1);
+  while (nextDay.getUTCDay() !== 5) {
+    nextDay.setUTCDate(nextDay.getUTCDate() + 1);
   }
   return nextDay;
 }
@@ -220,9 +220,11 @@ function getCountWeekendsInMonth(month, year) {
  */
 function getWeekNumberByDate(date) {
   const yearStart = new Date(date.getUTCFullYear(), 0, 1);
-  const diffTime = date.getTime() - yearStart.getTime();
+  const diffTime = date - yearStart;
   const countDays = diffTime / (1000 * 3600 * 24);
-  const countWeek = (countDays + yearStart.getUTCDay() + 1) / 7;
+  let countWeek = (countDays + yearStart.getDay() + 1) / 7;
+  if (yearStart.getDay() === 0) countWeek += 1;
+  if (date.getDay() === 0) countWeek -= 1;
   return Math.ceil(countWeek);
 }
 
